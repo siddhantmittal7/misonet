@@ -1,10 +1,16 @@
 package com.misonet.model.mao;
 
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
-
 import com.misonet.model.UserProfile;
 import com.misonet.utils.MongoConnection;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -83,8 +89,8 @@ public class UserProfileMaoImpl implements IUserProfileMao {
 		MongoCollection<Document> c = m.getCollection("users");
 		
 		Document document = new Document();
-		document.append("email", "abc@gmail.com");
-		document.append("password", "test@123");
+		document.append("email", email);
+		document.append("password", password);
 		
 		FindIterable<Document> d = c.find(document);
 		
@@ -93,10 +99,9 @@ public class UserProfileMaoImpl implements IUserProfileMao {
 		}else {
 			return "";
 		}
-		
+	
 		
 	}
-	
 	
 
 }

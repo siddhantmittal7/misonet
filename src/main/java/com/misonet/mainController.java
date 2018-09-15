@@ -1,10 +1,15 @@
 package com.misonet;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+=======
+import java.util.List;
+
+>>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,20 +21,27 @@ import com.misonet.model.ApiResponse;
 import com.misonet.model.SuccessResponse;
 import com.misonet.model.UserProfile;
 import com.misonet.model.mao.IUserProfileMao;
+<<<<<<< HEAD
 import com.misonet.utils.RequestContextService;
+=======
+>>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
 
 @Controller
 public class mainController {
 	
 	@Autowired
 	IUserProfileMao IUserProfileMao;
+<<<<<<< HEAD
 	
 	@Autowired
 	RequestContextService requestContextService;
+=======
+>>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
 	
     @RequestMapping(value = "/hello", method = {RequestMethod.GET})
     public String changeKakfaTopicName(@RequestParam String name) {
 
+<<<<<<< HEAD
     	//IUserProfileMao.insertNewUser();
         return "success";
     }
@@ -58,6 +70,13 @@ public class mainController {
         return apiResponse;
     }
     
+=======
+    //    	IUserProfileMao.insertNewUser();
+   //IUserProfileMao.insertNewUser();
+        return "success";
+    }
+    
+>>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
     @RequestMapping(value = "/newUser", method = {RequestMethod.POST})
     @ResponseBody
     public ApiResponse<String> addUser(@RequestParam String name,

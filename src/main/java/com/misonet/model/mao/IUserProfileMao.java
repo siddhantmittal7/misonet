@@ -9,4 +9,5 @@ public interface IUserProfileMao {
 	void getFeed(String userid);
 
 	String login(String email, String password);
+
 }
