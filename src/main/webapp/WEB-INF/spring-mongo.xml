@@ -10,18 +10,9 @@
           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
 
-    <context:property-placeholder
-            location="file:/Users/siddhantmittal/Documents/apps/database.properties"/>
 
 
-    <mongo:mongo-client id="MongoSet" replica-set="${mongodb.hostname}"
-
-		credentials="${mongodb.username}:${mongodb.password}@${mongodb.database}?uri.authMechanism=SCRAM-SHA-1">
-
-		<mongo:client-options connections-per-host="${mongodb.connectionsPerHost}" />
-    </mongo:mongo-client>
-
-    <mongo:db-factory dbname="${mongodb.database}" mongo-ref="MongoSet"
+    <mongo:db-factory client-uri="mongodb+srv://mongodb:mongodb@cluster0-qlnsf.mongodb.net/swift"
                       id="eventMongoDbFactory"/>
 
 
