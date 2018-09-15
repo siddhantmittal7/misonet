@@ -1,5 +1,5 @@
 {
-  "Description": "Simple article service.",
+  "Description": "Simple app service.",
   "Resources": {
     "GetUser": {
       "Type": "AWS::Serverless::Function",
@@ -14,7 +14,7 @@
           "GetResource": {
             "Type": "Api",
             "Properties": {
-              "Path": "/",
+              "Path": "/users",
               "Method": "get"
              }
             }
