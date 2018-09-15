@@ -17,7 +17,7 @@ public class mainController {
     @RequestMapping(value = "/hello", method = {RequestMethod.GET})
     public String changeKakfaTopicName(@RequestParam String name) {
 
-    	IUserProfileMao.insertNewUser();
+//    	IUserProfileMao.insertNewUser();
         return "success";
     }
 }
