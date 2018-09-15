@@ -12,8 +12,14 @@
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 
-    <beans:import resource="/spring-mongo.xml"/>
+<!--     <beans:import resource="/spring-mongo.xml"/>
+     -->
     <context:component-scan base-package="com.misonet"/>
+    
+        <mvc:interceptors>
+        <beans:bean id="UserValidatorClass"
+                    class="com.misonet.interceptor.UserValidatorClass"/>
+    </mvc:interceptors>
 
 
 

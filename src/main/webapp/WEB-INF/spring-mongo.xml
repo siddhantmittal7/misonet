@@ -1,4 +1,4 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<!-- <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
@@ -10,24 +10,9 @@
           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
 
-    <context:property-placeholder
-            location="file:/opt/apps/database.properties"/>
 
 
-    <mongo:mongo-client id="MongoSet" replica-set="${mongodb.hostname}"
-
-		credentials="${mongodb.username}:${mongodb.password}@${mongodb.database}?uri.authMechanism=SCRAM-SHA-1">
-
-		<mongo:client-options connections-per-host="${mongodb.connectionsPerHost}"
-
-			threads-allowed-to-block-for-connection-multiplier="${mongodb.threadsAllowedToBlockForConnectionMultiplier}"
-
-			connect-timeout="${mongodb.connectTimeout}" max-wait-time="${mongodb.maxWaitTime}"
-
-			socket-keep-alive="${mongodb.socketKeepAlive}" socket-timeout="${mongodb.socketTimeout}" />
-    </mongo:mongo-client>
-
-    <mongo:db-factory dbname="${mongodb.database}" mongo-ref="MongoSet"
+    <mongo:db-factory client-uri="mongodb+srv://mongodb:mongodb@cluster0-qlnsf.mongodb.net/swift"
                       id="eventMongoDbFactory"/>
 
 
@@ -48,4 +33,4 @@
 
  
  
-</beans>
+</beans> -->
