@@ -1,8 +1,13 @@
 package com.misonet.model.mao;
 
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
+import com.misonet.model.UserProfile;
+import com.misonet.utils.MongoConnection;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -20,43 +25,44 @@ public class UserProfileMaoImpl implements IUserProfileMao {
 //    @Autowired
 //    @Qualifier("MongoTemplate")
 //    private MongoOperations mongoOperations;
+	
+	static MongoConnection mongoConnection = new MongoConnection();
+	
+	
+	private Document getUserProfileDocument(UserProfile userProfile) {
+		
+		Document document = new Document();
+		document.append("name", userProfile.getName());
+		document.append("interests", userProfile.getInterests());
+		
+		return document;
+		
+	}
 
 	@Override
-	public void insertNewUser() {
+	public String insertNewUser(UserProfile userProfile) {
 		
 
-		MongoClientURI uri = new MongoClientURI( "mongodb+srv://mongodb:mongodb@cluster0-qlnsf.mongodb.net");
-		
+		MongoClientURI uri = new MongoClientURI(mongoConnection.MongoUrl());
 		MongoClient mongoClient = null;
 		mongoClient = new MongoClient(uri);
 		mongoClient.getReplicaSetStatus();
 		
-	 MongoDatabase m = mongoClient.getDatabase("swift");
+		MongoDatabase m = mongoClient.getDatabase("swift");
 	 
-	 MongoCollection<Document> c = m.getCollection("users");
+		MongoCollection<Document> c = m.getCollection("users");
 	 
 	 
+		Document doc = getUserProfileDocument(userProfile);
 	
+		c.insertOne(doc);
 	 
-	 org.bson.Document doc = new org.bson.Document();
-	 
-	
-	 
-	 doc.append("name", "Aswin");
-	 
-	 BasicDBObject b = new BasicDBObject(doc);
-	 
-	 FindIterable<Document> d = c.find(b);
-	 
-	 System.out.println(d.first().get("age"));
-	 
-	 mongoClient.close();
-	 
-	 
-//		MongoDatabase database = mongoClient.getDatabase("test");
-
-//		mongoOperations.save(userProfile);	
+		mongoClient.close();
+		
+		return doc.get("_id").toString();
 	}
+	
+	
 
 	@Override
 	public void getFeed(String userid) {
