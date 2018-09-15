@@ -4,5 +4,7 @@ import com.misonet.model.UserProfile;
 
 public interface IUserProfileMao {
 
-	void insertNewUser(UserProfile userProfile);
+	void insertNewUser();
+	
+	void getFeed(String userid);
 }
