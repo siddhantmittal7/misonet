@@ -55,10 +55,9 @@ public class mainController {
         return "success";
     }
     
-    @RequestMapping(value = "/login", method = {RequestMethod.GET})
-
-    @ResponseBody
-    public ApiResponse<String> login(@RequestParam String email, @RequestParam String password){
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public ApiResponse<String> login(@RequestParam String email, @RequestParam String password,
+    @RequestParam HttpServletResponse response) {
     	
     	//@RequestParam HttpServletResponse response
  
