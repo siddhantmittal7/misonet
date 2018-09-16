@@ -28,7 +28,10 @@ public class UserProfileMaoImpl implements IUserProfileMao {
 		
 		Document document = new Document();
 		document.append("name", userProfile.getName());
-		document.append("interests", userProfile.getInterests());
+		document.append("interests", userProfile.getInterests());;
+		document.append("email", userProfile.getEmail());
+		document.append("password", userProfile.getPassword());
+		document.append("preferedDis", userProfile.getPreferedDis());
 		
 		return document;
 		

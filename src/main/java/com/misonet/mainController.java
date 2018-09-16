@@ -97,12 +97,15 @@ public class mainController {
     @RequestMapping(value = "/newUser", method = {RequestMethod.POST})
     @ResponseBody
     public ApiResponse<String> addUser(@RequestParam String name,
-    @RequestParam List<String> interests){
+    @RequestParam List<String> interests,@RequestParam String email, @RequestParam String password, @RequestParam int predis ){
     	
     	
     UserProfile userProfile = new UserProfile();
     userProfile.setName(name);
     userProfile.setInterests(interests);
+    userProfile.setEmail(email);
+    userProfile.setPassword(password);
+    userProfile.setPreferedDis(predis);
     	
     String id = IUserProfileMao.insertNewUser(userProfile);
     	
@@ -117,12 +120,8 @@ public class mainController {
     public ApiResponse<EventClass> creatEvent(@RequestParam String name, @RequestParam String location, 
     		@RequestParam String desc, @RequestParam String interest, HttpServletRequest request){
  
-    	EventClass event = new EventClass();
+    	EventClass event = new EventClass(name,desc,location,interest);
     	
-    	event.setEventName(name);
-    	event.setLocation(location);
-    	event.setDesc(desc);
-    	event.setInterest(interest);
     	
     	String userid = null;
 		try {

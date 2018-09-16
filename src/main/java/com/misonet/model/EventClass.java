@@ -1,9 +1,8 @@
 package com.misonet.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="eventCollection")
+import org.springframework.data.annotation.Id;
+
 public class EventClass {
 
 	@Id
@@ -12,6 +11,7 @@ public class EventClass {
 	String desc;
 	String location;
 	String interest;
+	String userid;
 	
 	
 	public String getId() {
@@ -42,6 +42,18 @@ public class EventClass {
 		return interest;
 	}
 	public void setInterest(String interest) {
+		this.interest = interest;
+	}
+	@Override
+	public String toString() {
+		return "EventClass [eventName=" + eventName + ", desc=" + desc + ", location=" + location + ", interest="
+				+ interest + "]";
+	}
+	public EventClass(String eventName, String desc, String location, String interest) {
+		super();
+		this.eventName = eventName;
+		this.desc = desc;
+		this.location = location;
 		this.interest = interest;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import com.misonet.model.InterestClass;
@@ -38,13 +39,12 @@ public class InterestMaoImpl implements IInterestMao{
 		MongoCollection<Document> c_users = m.getCollection("users");
 		MongoCollection<Document> c_events = m.getCollection("events");
 		
-		FindIterable<Document> userProfile = c_users.find(new Document("_id",userid));
+		Document userProfile = c_users.find().filter(Filters.eq("_id",new ObjectId(userid))).first();
 		
-		if(userProfile.first() != null) {
-			
-			Document userDoc = userProfile.first();
+		if(userProfile != null) {
+
 			@SuppressWarnings("unchecked")
-			List<InterestClass> listOfInterest = (List<InterestClass>) userDoc.get("interests");
+			List<String> listOfInterest = (List<String>) userProfile.get("interests");
 			
 			//Filters f = Filters.and(Filters.in("interest", listOfInterest),Filters.lte(findDist("location"), userDoc.get("preferedDis")));
 			
