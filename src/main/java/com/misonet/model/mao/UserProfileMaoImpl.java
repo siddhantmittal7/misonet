@@ -7,9 +7,9 @@ import com.misonet.model.UserProfile;
 import com.misonet.utils.MongoConnection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 @Repository
 public class UserProfileMaoImpl implements IUserProfileMao {
@@ -82,18 +82,14 @@ public class UserProfileMaoImpl implements IUserProfileMao {
 	 
 		MongoCollection<Document> c = m.getCollection("users");
 		
-		Document document = new Document();
-		document.append("email", email);
-		document.append("password", password);
+		Document d = c.find().filter(Filters.eq("email",email)).first();
 		
-		FindIterable<Document> d = c.find(document);
-		
-		if(d.first() != null) {
-			return d.first().get("_id").toString();
+		if(d.get("password").equals(password)) {
+			return d.get("_id").toString();
 		}else {
-			return "";
+			return null;
 		}
-	
+		
 		
 	}
 	

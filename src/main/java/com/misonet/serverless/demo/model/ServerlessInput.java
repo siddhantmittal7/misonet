@@ -11,6 +11,7 @@ public class ServerlessInput {
     private Map<String, String> queryStringParameters;
     private Map<String, String> pathParameters;
     private Map<String, String> stageVariables;
+    private Map<String, String> input;
     private String body;
     private RequestContext requestContext;
     private Boolean isBase64Encoded;
@@ -111,7 +112,18 @@ public class ServerlessInput {
         this.isBase64Encoded = isBase64Encoded;
     }
 
-    public static class RequestContext {
+    public Map<String, String> getInput() {
+		return input;
+	}
+	public void setInput(Map<String, String> input) {
+		this.input = input;
+	}
+	public ServerlessInput withInput(Map<String, String> input) {
+        setInput(input);
+        return this;
+    }
+
+	public static class RequestContext {
         private String accountId;
         private String resourceId;
         private String stage;

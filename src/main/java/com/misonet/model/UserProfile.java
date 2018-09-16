@@ -12,10 +12,19 @@ public class UserProfile {
     String id;
     String name;
     List<String> interests;
-    List<String> events;
+    List<EventClass> events;
+    int preferedDis;
+    
 
+    public int getPreferedDis() {
+		return preferedDis;
+	}
 
-    public String getId() {
+	public void setPreferedDis(int preferedDis) {
+		this.preferedDis = preferedDis;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -23,15 +32,15 @@ public class UserProfile {
         this.id = id;
     }
 
-    public List<String> getEvents() {
-        return events;
-    }
+    public List<EventClass> getEvents() {
+		return events;
+	}
 
-    public void setEvents(List<String> events) {
-        this.events = events;
-    }
+	public void setEvents(List<EventClass> events) {
+		this.events = events;
+	}
 
-    public List<String> getInterests() {
+	public List<String> getInterests() {
         return interests;
     }
 

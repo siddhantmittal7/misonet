@@ -1,10 +1,9 @@
 package com.misonet.utils;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,6 +12,8 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class RequestContextService {
@@ -28,7 +29,7 @@ public class RequestContextService {
     private final int COOKIE_TIMEOUT_DELETE = 0;
 
 
-    public String getUswerId(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
+    public String getUserId(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
 
         javax.servlet.http.Cookie[] cookies = httpServletRequest.getCookies();
 
@@ -50,7 +51,7 @@ public class RequestContextService {
 
         String userid = "";
 
-        userid = getUswerId(request);
+        userid = getUserId(request);
 
         return userid;
     }
@@ -64,6 +65,19 @@ public class RequestContextService {
 
         return expiry;
     }
+    
+    
+    public static String getDomainName(String url) throws MalformedURLException{
+        if(!url.startsWith("http") && !url.startsWith("https")){
+             url = "http://" + url;
+        }        
+        URL netUrl = new URL(url);
+        String host = netUrl.getHost();
+        if(host.startsWith("www")){
+            host = host.substring("www".length()+1);
+        }
+        return host;
+    }
 
 
     public void deleteCookie(HttpServletResponse response) {
@@ -75,10 +89,10 @@ public class RequestContextService {
         response.addHeader("Set-Cookie", COOKIE_NAME_USERID + "=;" + domainAndPath + "; ");
     }
 
-    public void createCookie(String uersid, HttpServletResponse response) throws IOException {
+    public void createCookie(String uersid, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 
-        String domainAndPath = "domain=" + DOMAIN + "; path=/;";
+        String domainAndPath = "domain=" + request.getServerName() + "; path=/;";
 
         domainAndPath = domainAndPath + "Expires=" + addHours(COOKIE_TIMEOUT_HRS);
 
