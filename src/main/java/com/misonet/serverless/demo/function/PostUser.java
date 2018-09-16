@@ -3,10 +3,13 @@ package com.misonet.serverless.demo.function;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.misonet.interceptor.UserValidatorClass;
 import com.misonet.model.ApiResponse;
 import com.misonet.model.UserProfile;
 import com.misonet.model.mao.UserProfileMaoImpl;
@@ -36,6 +39,8 @@ public class PostUser implements RequestHandler<ServerlessInput, ServerlessOutpu
                   String id_inserted = umaImpl.insertNewUser(up);
                   output.setStatusCode(200);
                   output.setBody("User with id : "+ id_inserted);
+                  output.setHeaders(UserValidatorClass.getResponseHeaders());
+                 
             } catch (Exception e) {
                 output.setStatusCode(500);
                 StringWriter sw = new StringWriter();

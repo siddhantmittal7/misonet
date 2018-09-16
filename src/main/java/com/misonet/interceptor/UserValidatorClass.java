@@ -21,7 +21,6 @@ public class UserValidatorClass extends HandlerInterceptorAdapter {
             throws Exception {
 
 
-    	
         if (request.getRequestURI().contains("login")) {
         	
             return true;

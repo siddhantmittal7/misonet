@@ -47,14 +47,16 @@ public class mainController {
 	@Autowired
 	RequestContextService requestContextService;
 	
+
+
     @RequestMapping(value = "/hello", method = {RequestMethod.GET})
     public String changeKakfaTopicName(@RequestParam String name) {
 
-    	//IUserProfileMao.insertNewUser();
         return "success";
     }
     
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
+
     @ResponseBody
     public ApiResponse<String> login(@RequestParam String email, @RequestParam String password){
     	
@@ -95,19 +97,19 @@ public class mainController {
     @RequestMapping(value = "/newUser", method = {RequestMethod.POST})
     @ResponseBody
     public ApiResponse<String> addUser(@RequestParam String name,
-    		@RequestParam List<String> interests){
+    @RequestParam List<String> interests){
     	
     	
-    	UserProfile userProfile = new UserProfile();
-    	userProfile.setName(name);
-    	userProfile.setInterests(interests);
+    UserProfile userProfile = new UserProfile();
+    userProfile.setName(name);
+    userProfile.setInterests(interests);
     	
-    	String id = IUserProfileMao.insertNewUser(userProfile);
+    String id = IUserProfileMao.insertNewUser(userProfile);
     	
-    	 ApiResponse<String> apiResponse = new SuccessResponse<String>(id,
-    	            200, "OK");
-    	 
-    	 return apiResponse;
+    	ApiResponse<String> apiResponse = new SuccessResponse<String>(id,
+                200, "OK");
+     
+    	return apiResponse;
     }
     
     @RequestMapping(value = "/createEvent", method = {RequestMethod.POST})
