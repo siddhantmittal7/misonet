@@ -2,6 +2,8 @@ package com.misonet.utils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,6 +65,19 @@ public class RequestContextService {
 
         return expiry;
     }
+    
+    
+    public static String getDomainName(String url) throws MalformedURLException{
+        if(!url.startsWith("http") && !url.startsWith("https")){
+             url = "http://" + url;
+        }        
+        URL netUrl = new URL(url);
+        String host = netUrl.getHost();
+        if(host.startsWith("www")){
+            host = host.substring("www".length()+1);
+        }
+        return host;
+    }
 
 
     public void deleteCookie(HttpServletResponse response) {
@@ -74,10 +89,10 @@ public class RequestContextService {
         response.addHeader("Set-Cookie", COOKIE_NAME_USERID + "=;" + domainAndPath + "; ");
     }
 
-    public void createCookie(String uersid, HttpServletResponse response) throws IOException {
+    public void createCookie(String uersid, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 
-        String domainAndPath = "domain=" + DOMAIN + "; path=/;";
+        String domainAndPath = "domain=" + request.getServerName() + "; path=/;";
 
         domainAndPath = domainAndPath + "Expires=" + addHours(COOKIE_TIMEOUT_HRS);
 

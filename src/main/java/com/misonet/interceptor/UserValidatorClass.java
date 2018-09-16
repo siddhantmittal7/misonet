@@ -1,5 +1,8 @@
 package com.misonet.interceptor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,6 +44,19 @@ public class UserValidatorClass extends HandlerInterceptorAdapter {
         }
         
     }
+    
+    public static Map<String, String> getResponseHeaders() {
+    	 
+    	Map<String, String> headers = new HashMap<>();
+    	        headers.put("Access-Control-Allow-Origin", "*");
+    	   headers.put("Access-Control-Allow-Methods",
+    	               "POST, GET, OPTIONS,PUT, HEAD, DELETE");
+    	   headers.put("Access-Control-Max-Age", "3600");
+    	   headers.put("Access-Control-Allow-Headers", "Content-Type");
+    	   headers.put("Access-Control-Allow-Credentials", "true");
+    	   return headers;
+    	}
+    	    
     
 	@Override
 	public void postHandle(

@@ -70,7 +70,7 @@ public class mainController {
      	            200, "OK");
     		 
     		 try {
-				requestContextService.createCookie(userid, response);
+				requestContextService.createCookie(userid,request, response);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
