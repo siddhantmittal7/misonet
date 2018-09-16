@@ -1,8 +1,5 @@
 package com.misonet.utils;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -13,6 +10,8 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class RequestContextService {
@@ -28,7 +27,7 @@ public class RequestContextService {
     private final int COOKIE_TIMEOUT_DELETE = 0;
 
 
-    public String getUswerId(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
+    public String getUserId(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
 
         javax.servlet.http.Cookie[] cookies = httpServletRequest.getCookies();
 
@@ -50,7 +49,7 @@ public class RequestContextService {
 
         String userid = "";
 
-        userid = getUswerId(request);
+        userid = getUserId(request);
 
         return userid;
     }

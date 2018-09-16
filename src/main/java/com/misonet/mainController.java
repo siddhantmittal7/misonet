@@ -1,15 +1,13 @@
 package com.misonet;
 
-<<<<<<< HEAD
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-=======
-import java.util.List;
-
->>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,38 +16,50 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.misonet.model.ApiResponse;
+import com.misonet.model.EventClass;
+import com.misonet.model.FailureResponse;
 import com.misonet.model.SuccessResponse;
 import com.misonet.model.UserProfile;
+import com.misonet.model.mao.IEventMao;
+import com.misonet.model.mao.IInterestMao;
 import com.misonet.model.mao.IUserProfileMao;
-<<<<<<< HEAD
 import com.misonet.utils.RequestContextService;
-=======
->>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
 
 @Controller
 public class mainController {
 	
+	
+	@Autowired 
+	HttpServletRequest request;
+	
+	@Autowired 
+	private HttpServletResponse response;
+	
 	@Autowired
 	IUserProfileMao IUserProfileMao;
-<<<<<<< HEAD
+	
+	@Autowired
+	IEventMao iEventMao;
+
+	@Autowired
+	IInterestMao iInterestMao;
 	
 	@Autowired
 	RequestContextService requestContextService;
-=======
->>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
 	
     @RequestMapping(value = "/hello", method = {RequestMethod.GET})
     public String changeKakfaTopicName(@RequestParam String name) {
 
-<<<<<<< HEAD
     	//IUserProfileMao.insertNewUser();
         return "success";
     }
     
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
-    public ApiResponse<String> login(@RequestParam String email, @RequestParam String password,
-    		@RequestParam HttpServletResponse response) {
-
+    @RequestMapping(value = "/login", method = {RequestMethod.GET})
+    @ResponseBody
+    public ApiResponse<String> login(@RequestParam String email, @RequestParam String password){
+    	
+    	//@RequestParam HttpServletResponse response
+ 
     	String userid = IUserProfileMao.login(email,password);
     	
     	ApiResponse<String> apiResponse = null;
@@ -64,19 +74,24 @@ public class mainController {
 				e.printStackTrace();
 			}
     	}else {
-    		 apiResponse = new SuccessResponse<String>("",
-     	            500, "OK");
+    		 apiResponse = new SuccessResponse<String>("",500, "OK");
     	}
         return apiResponse;
     }
     
-=======
-    //    	IUserProfileMao.insertNewUser();
-   //IUserProfileMao.insertNewUser();
-        return "success";
+    @RequestMapping(value = "/logout", method = {RequestMethod.GET})
+    public ApiResponse<String> logout(@RequestParam HttpServletResponse response) throws IOException {
+
+
+    		 requestContextService.deleteCookie(response);
+    		 ApiResponse<String> apiResponse = new SuccessResponse<String>("Success",
+     	            200, "OK");
+    		 
+    		 response.sendRedirect("url to login page");
+    	
+        return apiResponse;
     }
     
->>>>>>> 608a73eb448b91c6d2e5d530cd4434684c603df6
     @RequestMapping(value = "/newUser", method = {RequestMethod.POST})
     @ResponseBody
     public ApiResponse<String> addUser(@RequestParam String name,
@@ -93,5 +108,60 @@ public class mainController {
     	            200, "OK");
     	 
     	 return apiResponse;
+    }
+    
+    @RequestMapping(value = "/createEvent", method = {RequestMethod.POST})
+    @ResponseBody
+    public ApiResponse<EventClass> creatEvent(@RequestParam String name, @RequestParam String location, 
+    		@RequestParam String desc, @RequestParam String interest, HttpServletRequest request){
+ 
+    	EventClass event = new EventClass();
+    	
+    	event.setEventName(name);
+    	event.setLocation(location);
+    	event.setDesc(desc);
+    	event.setInterest(interest);
+    	
+    	String userid = null;
+		try {
+			userid = requestContextService.getUserId(request);
+			
+	    	EventClass createdEvent = iEventMao.creatEvent(event,userid);
+	    	
+	    	 ApiResponse<EventClass> apiResponse = new SuccessResponse<EventClass>(createdEvent,
+	    	            200, "OK");
+	    	 
+	    	 return apiResponse;
+	    	 
+		} catch (UnsupportedEncodingException e) {
+	    	 ApiResponse<EventClass> apiResponse = new FailureResponse<EventClass>();
+	    	 e.printStackTrace(); 
+	    	 return apiResponse;
+			
+		}
+    }
+    
+    @RequestMapping(value = "/getUserFeed", method = {RequestMethod.GET})
+    @ResponseBody
+    public ApiResponse<List<Document>> getUserFeed(HttpServletRequest request){
+ 
+    	String userid;
+		try {
+			userid = requestContextService.getUserId(request);
+			
+			List<Document> listOfFeedDocuments =  iInterestMao.getUserFeed(userid);
+			
+			ApiResponse<List<Document>> apiResponse = new SuccessResponse<List<Document>>(listOfFeedDocuments,
+    	            200, "OK");
+    	 
+    	 return apiResponse;
+			
+		} catch (UnsupportedEncodingException e) {
+			 ApiResponse<List<Document>> apiResponse = new FailureResponse<List<Document>>();
+	    	 e.printStackTrace(); 
+	    	 return apiResponse;
+		}
+    	
+    	
     }
 }

@@ -1,21 +1,17 @@
 package com.misonet.model.mao;
 
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.MongoOperations;
+import org.bson.conversions.Bson;
 import org.springframework.stereotype.Repository;
+
 import com.misonet.model.UserProfile;
 import com.misonet.utils.MongoConnection;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 @Repository
 public class UserProfileMaoImpl implements IUserProfileMao {
@@ -88,18 +84,14 @@ public class UserProfileMaoImpl implements IUserProfileMao {
 	 
 		MongoCollection<Document> c = m.getCollection("users");
 		
-		Document document = new Document();
-		document.append("email", email);
-		document.append("password", password);
+		Document d = c.find().filter(Filters.eq("email",email)).first();
 		
-		FindIterable<Document> d = c.find(document);
-		
-		if(d.first() != null) {
-			return d.first().get("_id").toString();
+		if(d.get("password").equals(password)) {
+			return d.get("_id").toString();
 		}else {
-			return "";
+			return null;
 		}
-	
+		
 		
 	}
 	

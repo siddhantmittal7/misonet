@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.misonet.utils.RequestContextService;
@@ -19,13 +20,8 @@ public class UserValidatorClass extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-    	 response.setHeader("Access-Control-Allow-Origin", "*");
-    	    response.setHeader("Access-Control-Allow-Methods",
-    	            "POST, GET, OPTIONS,PUT, HEAD, DELETE");
-    	    response.setHeader("Access-Control-Max-Age", "3600");
-    	    response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    	    response.setHeader("Access-Control-Allow-Credentials", "true");
 
+    	
         if (request.getRequestURI().contains("login")) {
         	
             return true;
@@ -41,12 +37,24 @@ public class UserValidatorClass extends HandlerInterceptorAdapter {
         } else {
             response.sendRedirect("");
             return false;
+            
+            
         }
         
-
-
-        
-
     }
+    
+	@Override
+	public void postHandle(
+			HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
+			throws Exception {
+	   	 response.setHeader("Access-Control-Allow-Origin", "*");
+		    response.setHeader("Access-Control-Allow-Methods",
+		            "POST, GET, OPTIONS,PUT, HEAD, DELETE");
+		    response.setHeader("Access-Control-Max-Age", "3600");
+		    response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		    response.setHeader("Access-Control-Allow-Credentials", "true");
+	        
+
+	}
     
 }

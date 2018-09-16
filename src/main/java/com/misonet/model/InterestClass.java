@@ -11,8 +11,8 @@ public class InterestClass {
 	@Id
 	String id;
 	String interestName;
-	List<String> eventIds;
-	List<String> userIds;
+	List<EventClass> events;
+	List<UserProfile> users;
 	
 	public String getId() {
 		return id;
@@ -26,17 +26,19 @@ public class InterestClass {
 	public void setInterestName(String interestName) {
 		this.interestName = interestName;
 	}
-	public List<String> getEventIds() {
-		return eventIds;
+	public List<EventClass> getEvents() {
+		return events;
 	}
-	public void setEventIds(List<String> eventIds) {
-		this.eventIds = eventIds;
+	public void setEvents(List<EventClass> events) {
+		this.events = events;
 	}
-	public List<String> getUserIds() {
-		return userIds;
+	public List<UserProfile> getUsers() {
+		return users;
 	}
-	public void setUserIds(List<String> userIds) {
-		this.userIds = userIds;
+	public void setUsers(List<UserProfile> users) {
+		this.users = users;
 	}
+
+	
 
 }
